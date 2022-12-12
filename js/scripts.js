@@ -16,8 +16,16 @@ let pokemonList = [
   },
 ];
 
+// Iterate the pokemonList array and display the name and height of each item
+
 for (i = 0; i < pokemonList.length; i++) {
-  document.write(
-    `<p>${pokemonList[i].name} (height: ${pokemonList[i].height} m)</p>`
-  );
+  if (pokemonList[i].height > 0.6) {
+    document.write(
+      `<p class="pokemon-item">${pokemonList[i].name} (height: ${pokemonList[i].height} m) - Wow, that’s big! </p>`
+    );
+  } else {
+    document.write(
+      `<p class="pokemon-item">${pokemonList[i].name} (height: ${pokemonList[i].height} m)</p>`
+    );
+  }
 }

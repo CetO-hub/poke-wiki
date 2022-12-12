@@ -1,0 +1,35 @@
+@import url("https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&display=swap");
+
+:root {
+  --windowPadding: 1rem;
+}
+
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Kalam", cursive;
+}
+
+p {
+  line-height: 1.6;
+  padding: var(--windowPadding);
+}
+
+.pokemon-item {
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+}
+
+header {
+  display: flex;
+  padding: var(--windowPadding);
+  border-bottom: 1px solid rgb(0, 0, 0, 0.2);
+}
+
+header h1 {
+  flex-grow: 1;
+  text-align: center;
+}
