@@ -35,9 +35,23 @@ let pokemonRepository = (function () {
     }
   }
 
+  function find(name) {
+    let pokemon = pokemonList.filter(function (pokemons) {
+      if (pokemons.name === name) {
+        return pokemons;
+      }
+    });
+    if (pokemon.length !== 0) {
+      return console.log(pokemon);
+    } else {
+      return console.log("No pokemon found");
+    }
+  }
+
   return {
     getAll: getAll,
     add: add,
+    find: find,
   };
 })();
 
