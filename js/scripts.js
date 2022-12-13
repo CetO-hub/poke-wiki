@@ -22,7 +22,17 @@ let pokemonRepository = (function () {
   }
 
   function add(pokemon) {
-    pokemonList.push(pokemon);
+    let keysEntered = Object.keys(pokemon).toString();
+
+    if (typeof pokemon !== "object") {
+      return console.log("parameter needs to be an object");
+    } else {
+      if (keysEntered !== "name,height,types") {
+        return console.log("object keys need to be: name, height, types");
+      } else {
+        return pokemonList.push(pokemon);
+      }
+    }
   }
 
   return {
