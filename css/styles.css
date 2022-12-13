@@ -30,12 +30,36 @@ header {
 }
 
 header img {
-  max-width: 200px;
+  min-width: 250px;
 }
 
 header h1 {
   flex-grow: 1;
+  font-size: 2.5rem;
   text-align: center;
+}
+
+.pokemon-list {
+  display: grid;
+  margin: 0 auto;
+  max-width: 1200px;
+  grid-template-columns: repeat(4, 1fr);
+  padding: var(--windowPadding);
+  list-style: none;
+}
+
+.pokemon-list li {
+  margin: auto;
+  text-align: center;
+}
+
+.button {
+  margin: 0 auto 0.3rem;
+  padding: 1rem;
+  min-width: 20ch;
+  font-size: 1.5rem;
+  font-weight: 700;
+  background-color: #d1ffdf;
 }
 
 @media all and (max-width: 555px) {
@@ -45,12 +69,17 @@ header h1 {
     gap: 0.5rem;
   }
 
-  header img {
-    min-width: 250px;
-  }
-
   h1 {
     font-size: 1.5rem;
     margin: 1.5rem 0 0;
+  }
+
+  .pokemon-list {
+    grid-template-columns: 1fr 1fr;
+    column-gap: 0.3rem;
+  }
+
+  .button {
+    font-size: 1rem;
   }
 }
