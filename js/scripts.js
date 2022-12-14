@@ -54,11 +54,22 @@ let pokemonRepository = (function () {
     let listItem = document.createElement("li");
     let button = document.createElement("button");
 
-    button.innerText = pokemon;
+    button.innerText = pokemon.name;
     button.classList.add("button");
 
     listItem.appendChild(button);
     pokemonList.appendChild(listItem);
+    addEventListenerClick(button, pokemon);
+  }
+
+  function showDetails(pokemon) {
+    console.log(pokemon);
+  }
+
+  function addEventListenerClick(button, pokemon) {
+    button.addEventListener("click", function () {
+      showDetails(pokemon);
+    });
   }
 
   return {
@@ -72,5 +83,5 @@ let pokemonRepository = (function () {
 // Iterate the pokemonList array and display the name and height of each item
 
 pokemonRepository.getAll().forEach(function (pokemon) {
-  pokemonRepository.addListItem(pokemon.name);
+  pokemonRepository.addListItem(pokemon);
 });
