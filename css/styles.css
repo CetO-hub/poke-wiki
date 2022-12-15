@@ -62,6 +62,16 @@ header h1 {
   background-color: #d1ffdf;
 }
 
+.loadingMessage {
+  text-align: center;
+  margin: auto;
+  display: none;
+}
+
+.visible {
+  display: block;
+}
+
 @media all and (max-width: 555px) {
   header {
     flex-direction: column;
