@@ -2,14 +2,17 @@ let pokemonRepository = (function () {
   let pokemonList = [];
   let apiUrl = "https://pokeapi.co/api/v2/pokemon/?limit=150";
 
+  // Show the pokemon list
   function getAll() {
     return pokemonList;
   }
 
+  // Add a pokemon to the pokemon list
   function add(pokemon) {
     pokemonList.push(pokemon);
   }
 
+  // Find a pokemon in the pokemon list
   function find(name) {
     let pokemon = pokemonList.filter(function (pokemons) {
       if (pokemons.name === name) {
@@ -22,7 +25,7 @@ let pokemonRepository = (function () {
       return console.log("No pokemon found");
     }
   }
-
+  // Add a pokemon to the DOM
   function addListItem(pokemon) {
     let pokemonList = document.querySelector(".pokemon-list");
 
@@ -37,10 +40,10 @@ let pokemonRepository = (function () {
     addEventListenerClick(button, pokemon);
   }
 
+  // Load details based on the detailsURL in the pokemon list for the respective pokemon
   function showDetails(pokemon) {
     loadDetails(pokemon).then(function () {
-      modal.showModal();
-      console.log(pokemon);
+      modal.showModal(pokemon);
     });
   }
 
@@ -49,7 +52,7 @@ let pokemonRepository = (function () {
       showDetails(pokemon);
     });
   }
-
+  // Get the initial data for the pokemon list
   function loadList() {
     showLoadingMessage();
     return fetch(apiUrl)
@@ -71,6 +74,7 @@ let pokemonRepository = (function () {
       });
   }
 
+  // Get detailed data for a certain pokemon
   function loadDetails(pokemon) {
     showLoadingMessage();
     let url = pokemon.detailsUrl;
@@ -80,6 +84,7 @@ let pokemonRepository = (function () {
         return response.json();
       })
       .then(function (json) {
+        pokemon.name = json.name;
         pokemon.imageUrl = json.sprites.front_default;
         pokemon.height = json.height;
         pokemon.types = json.types;
@@ -89,6 +94,7 @@ let pokemonRepository = (function () {
       });
   }
 
+  // Show "Loading" message while getting data from server
   function showLoadingMessage() {
     let main = document.querySelector("main");
     let heading = document.createElement("h1");
@@ -97,7 +103,7 @@ let pokemonRepository = (function () {
     heading.classList.add("loadingMessage", "visible");
     main.appendChild(heading);
   }
-
+  // Hide loading Message when data has been loaded
   function hideLoadingMessage() {
     let loadingMessage = document.querySelector(".visible");
     loadingMessage.classList.remove("visible");
@@ -109,6 +115,7 @@ let pokemonRepository = (function () {
     find: find,
     addListItem: addListItem,
     loadList: loadList,
+    showDetails: showDetails,
   };
 })();
 
@@ -117,20 +124,49 @@ let pokemonRepository = (function () {
 let modal = (function () {
   let modalContainer = document.querySelector(".modal-container");
 
-  function showModal() {
+  function showModal(pokemon) {
     modalContainer.innerHTML = "";
-
-    let closeButtonElement = document.createElement("button");
-
-    closeButtonElement.classList.add("modal-close");
-    closeButtonElement.textContent = "Close";
-    closeButtonElement.addEventListener("click", hideModal);
 
     let modalElement = document.createElement("div");
     modalElement.classList.add("modal");
     modalContainer.classList.add("is-visible");
 
+    let closeButtonElement = document.createElement("button");
+    closeButtonElement.classList.add("modal-close");
+    closeButtonElement.textContent = "Close";
+    closeButtonElement.addEventListener("click", hideModal);
+
+    let detailWrapperElement = document.createElement("div");
+    detailWrapperElement.classList.add("detail-wrapper");
+
+    let descriptionWrapperElement = document.createElement("div");
+    descriptionWrapperElement.classList.add("description-wrapper");
+
+    let nameElement = document.createElement("h1");
+    nameElement.textContent = pokemon.name;
+
+    let imageElement = document.createElement("img");
+    imageElement.src = pokemon.imageUrl;
+
+    let hightElement = document.createElement("p");
+    hightElement.textContent = `Height: ${pokemon.height / 10} m`;
+
+    // Iterate over the type array and save the types in the type array
+    let type = [];
+    pokemon.types.forEach(function (item) {
+      type.push(item.type.name);
+    });
+
+    let typesElement = document.createElement("p");
+    typesElement.textContent = `Types: ${type.join(", ")}`;
+
     modalElement.appendChild(closeButtonElement);
+    detailWrapperElement.appendChild(imageElement);
+    descriptionWrapperElement.appendChild(nameElement);
+    descriptionWrapperElement.appendChild(hightElement);
+    descriptionWrapperElement.appendChild(typesElement);
+    detailWrapperElement.appendChild(descriptionWrapperElement);
+    modalElement.appendChild(detailWrapperElement);
     modalContainer.appendChild(modalElement);
 
     window.addEventListener("keydown", (e) => {
