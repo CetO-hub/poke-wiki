@@ -130,7 +130,7 @@ header h1 {
 }
 
 .modal-icons {
-  max-width: 50px;
+  max-width: 55px;
   cursor: pointer;
   padding: 0.5rem;
 }
@@ -173,8 +173,12 @@ header h1 {
     font-size: 1rem;
   }
 
+  .modal {
+    padding: 0.5rem;
+  }
+
   .modal-icons {
-    max-width: 20px;
+    max-width: 25px;
     padding: 0;
   }
 
