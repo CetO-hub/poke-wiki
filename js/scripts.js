@@ -194,6 +194,8 @@ let modal = (function () {
       }
     });
 
+    // Add event listeners for the slide arrows in the modal
+
     addEventListenerLeftArrowClick(leftArrowSVGElement, pokemon, "left");
     addEventListenerRightArrowClick(rightArrowSVGElement, pokemon, "right");
   }
@@ -212,6 +214,8 @@ let modal = (function () {
       slideModal(pokemon, right);
     });
   }
+
+  // Find current pokemon id and show the next or previous pokemon
 
   function slideModal(pokemon, direction) {
     if (direction === "left") {
