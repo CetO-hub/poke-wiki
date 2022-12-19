@@ -37,7 +37,7 @@ let pokemonRepository = (function () {
 
     listItem.appendChild(button);
     pokemonList.appendChild(listItem);
-    addEventListenerClick(button, pokemon);
+    addEventListenerButtonClick(button, pokemon);
   }
 
   // Load details based on the detailsURL in the pokemon list for the respective pokemon
@@ -47,7 +47,7 @@ let pokemonRepository = (function () {
     });
   }
 
-  function addEventListenerClick(button, pokemon) {
+  function addEventListenerButtonClick(button, pokemon) {
     button.addEventListener("click", function () {
       showDetails(pokemon);
     });
@@ -84,6 +84,7 @@ let pokemonRepository = (function () {
         return response.json();
       })
       .then(function (json) {
+        pokemon.id = json.id;
         pokemon.name = json.name;
         pokemon.imageUrl = json.sprites.front_default;
         pokemon.height = json.height;
@@ -94,9 +95,10 @@ let pokemonRepository = (function () {
       });
   }
 
+  let main = document.querySelector("main");
+
   // Show "Loading" message while getting data from server
   function showLoadingMessage() {
-    let main = document.querySelector("main");
     let heading = document.createElement("h1");
 
     heading.textContent = "Loading...";
@@ -105,8 +107,7 @@ let pokemonRepository = (function () {
   }
   // Hide loading Message when data has been loaded
   function hideLoadingMessage() {
-    let loadingMessage = document.querySelector(".visible");
-    loadingMessage.classList.remove("visible");
+    main.removeChild(document.querySelector(".loadingMessage"));
   }
 
   return {
@@ -145,8 +146,17 @@ let modal = (function () {
     let nameElement = document.createElement("h1");
     nameElement.textContent = pokemon.name;
 
+    let leftArrowSVGElement = document.createElement("img");
+    leftArrowSVGElement.src = "./img/icon_arrow_left.svg";
+    leftArrowSVGElement.classList.add("modal-icons");
+
+    let rightArrowSVGElement = document.createElement("img");
+    rightArrowSVGElement.src = "./img/icon_arrow_right.svg";
+    rightArrowSVGElement.classList.add("modal-icons");
+
     let imageElement = document.createElement("img");
     imageElement.src = pokemon.imageUrl;
+    imageElement.classList.add("pokemon-image");
 
     let hightElement = document.createElement("p");
     hightElement.textContent = `Height: ${pokemon.height / 10} m`;
@@ -161,11 +171,13 @@ let modal = (function () {
     typesElement.textContent = `Types: ${type.join(", ")}`;
 
     modalElement.appendChild(closeButtonElement);
+    detailWrapperElement.appendChild(leftArrowSVGElement);
     detailWrapperElement.appendChild(imageElement);
     descriptionWrapperElement.appendChild(nameElement);
     descriptionWrapperElement.appendChild(hightElement);
     descriptionWrapperElement.appendChild(typesElement);
     detailWrapperElement.appendChild(descriptionWrapperElement);
+    detailWrapperElement.appendChild(rightArrowSVGElement);
     modalElement.appendChild(detailWrapperElement);
     modalContainer.appendChild(modalElement);
 
@@ -181,6 +193,44 @@ let modal = (function () {
         hideModal();
       }
     });
+
+    addEventListenerLeftArrowClick(leftArrowSVGElement, pokemon, "left");
+    addEventListenerRightArrowClick(rightArrowSVGElement, pokemon, "right");
+  }
+
+  function addEventListenerLeftArrowClick(leftArrowSVGElement, pokemon, left) {
+    leftArrowSVGElement.addEventListener("click", () => {
+      slideModal(pokemon, left);
+    });
+  }
+  function addEventListenerRightArrowClick(
+    rightArrowSVGElement,
+    pokemon,
+    right
+  ) {
+    rightArrowSVGElement.addEventListener("click", () => {
+      slideModal(pokemon, right);
+    });
+  }
+
+  function slideModal(pokemon, direction) {
+    if (direction === "left") {
+      if (pokemon.id === 1) {
+        return;
+      } else {
+        let previousPokemonUrl = `https://pokeapi.co/api/v2/pokemon/${
+          pokemon.id - 1
+        }/`;
+        pokemon.detailsUrl = previousPokemonUrl;
+        pokemonRepository.showDetails(pokemon);
+      }
+    } else if (direction === "right") {
+      let nextPokemonUrl = `https://pokeapi.co/api/v2/pokemon/${
+        pokemon.id + 1
+      }/`;
+      pokemon.detailsUrl = nextPokemonUrl;
+      pokemonRepository.showDetails(pokemon);
+    }
   }
 
   function hideModal() {

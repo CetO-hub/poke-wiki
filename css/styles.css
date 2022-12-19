@@ -115,7 +115,7 @@ header h1 {
 
 .detail-wrapper {
   display: flex;
-
+  justify-content: space-around;
   align-items: center;
   margin-top: 1.5rem;
   gap: 0.5rem;
@@ -126,7 +126,11 @@ header h1 {
   flex-direction: column;
   align-items: center;
   margin-top: 1rem;
-  gap: 0.5rem;
+  column-gap: 0.5rem;
+}
+
+.modal-icons {
+  max-width: 1.5rem;
 }
 
 .description-wrapper h1,
@@ -142,7 +146,7 @@ header h1 {
   line-height: 0;
 }
 
-.detail-wrapper img {
+.pokemon-image {
   min-width: 250px;
 }
 
@@ -167,8 +171,16 @@ header h1 {
     font-size: 1rem;
   }
 
-  .detail-wrapper img {
+  .pokemon-image {
     min-width: 100px;
+  }
+
+  .detail-wrapper {
+    justify-content: center;
+  }
+
+  .description-wrapper p {
+    min-width: max-content;
   }
 }
 
