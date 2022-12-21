@@ -48,7 +48,6 @@ let pokemonRepository = (function () {
   // Load details based on the detailsURL in the pokemon list for the respective pokemon
   function showDetails(pokemon) {
     loadDetails(pokemon).then(function () {
-      console.log(pokemon);
       modal.showModal(pokemon);
     });
   }
@@ -134,14 +133,39 @@ let modal = (function () {
     modalBody.innerHTML = "";
     modalFooter.innerHTML = "";
 
-    let leftArrow = document.createElement("img");
-    leftArrow.classList.add("modal-icons");
-    leftArrow.setAttribute("id", "left-arrow");
-    leftArrow.setAttribute("src", "./img/icon_arrow_left.svg");
-    let rightArrow = document.createElement("img");
-    rightArrow.classList.add("modal-icons");
-    rightArrow.setAttribute("id", "right-arrow");
-    rightArrow.setAttribute("src", "./img/icon_arrow_right.svg");
+    let leftArrowWrapperElement = document.createElement("div");
+    leftArrowWrapperElement.classList.add(
+      "d-flex",
+      "flex-column",
+      "align-items-center",
+      "arrow-wrapper"
+    );
+
+    let rightArrowWrapperElement = document.createElement("div");
+    rightArrowWrapperElement.classList.add(
+      "d-flex",
+      "flex-column",
+      "align-items-center",
+      "arrow-wrapper"
+    );
+
+    let leftArrowTextElement = document.createElement("p");
+    leftArrowTextElement.textContent = "Previous";
+    leftArrowTextElement.classList.add("mb-0", "p-0");
+
+    let rightArrowTextElement = document.createElement("p");
+    rightArrowTextElement.textContent = "Next";
+    rightArrowTextElement.classList.add("mb-0", "p-0", "pe-1");
+
+    let leftArrowElement = document.createElement("img");
+    leftArrowElement.classList.add("modal-icons");
+    leftArrowElement.setAttribute("id", "left-arrow");
+    leftArrowElement.setAttribute("src", "./img/icon_arrow_left.svg");
+
+    let rightArrowElement = document.createElement("img");
+    rightArrowElement.classList.add("modal-icons");
+    rightArrowElement.setAttribute("id", "right-arrow");
+    rightArrowElement.setAttribute("src", "./img/icon_arrow_right.svg");
 
     modalTitle.textContent = pokemon.name;
 
@@ -171,15 +195,18 @@ let modal = (function () {
     descriptionWrapperElement.appendChild(hightElement);
     descriptionWrapperElement.appendChild(typesElement);
     detailWrapperElement.appendChild(descriptionWrapperElement);
-
     modalBody.appendChild(detailWrapperElement);
-    modalFooter.appendChild(leftArrow);
-    modalFooter.appendChild(rightArrow);
+    leftArrowWrapperElement.appendChild(leftArrowElement);
+    leftArrowWrapperElement.appendChild(leftArrowTextElement);
+    rightArrowWrapperElement.appendChild(rightArrowElement);
+    rightArrowWrapperElement.appendChild(rightArrowTextElement);
+    modalFooter.appendChild(leftArrowWrapperElement);
+    modalFooter.appendChild(rightArrowWrapperElement);
 
     // Add event listeners for the slide arrows in the modal
 
-    addEventListenerArrowClick(leftArrow, pokemon, "left");
-    addEventListenerArrowClick(rightArrow, pokemon, "right");
+    addEventListenerArrowClick(leftArrowWrapperElement, pokemon, "left");
+    addEventListenerArrowClick(rightArrowWrapperElement, pokemon, "right");
   }
 
   function addEventListenerArrowClick(arrow, pokemon, direction) {

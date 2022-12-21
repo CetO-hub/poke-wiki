@@ -109,7 +109,11 @@ header h1 {
 }
 
 .pokemon-image {
-  min-width: 250px;
+  min-width: 100px;
+}
+
+.arrow-wrapper {
+  cursor: pointer;
 }
 
 @media all and (max-width: 555px) {
