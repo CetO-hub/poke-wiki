@@ -29,21 +29,40 @@
   </head>
   <body>
     <header>
-      <a href="./index.html"
-        ><img
-          src="./img/pokemon_wiki_logo.svg"
-          alt="A pokémon head with 'Pokémon Wiki' text below"
-      /></a>
-
-      <h1>Pokémon Wiki</h1>
+      <nav class="navbar bg-light w-100">
+        <div class="container">
+          <a class="navbar-brand" href="./index.html">
+            <img
+              src="./img/pokemon_wiki_logo.svg"
+              alt="A pokémon head with 'Pokémon Wiki' text below"
+            />
+          </a>
+          <h1 class="flex-grow-1">Pokémon Wiki</h1>
+        </div>
+      </nav>
     </header>
     <main>
+      <div
+        class="modal fade modal-fullscreen bg-secodnary position-absolute"
+        id="loading-modal"
+        tabindex="-1"
+      >
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title h1 fw-bold">Loading...</h5>
+            </div>
+          </div>
+        </div>
+      </div>
       <ul class="pokemon-list list-group gap-1"></ul>
       <div class="modal fade" id="pokemon-modal" tabindex="-1">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title">Modal title</h5>
+              <h5 class="modal-title h1 fw-bold" id="pokemon-name">
+                Modal title
+              </h5>
               <button
                 type="button"
                 class="btn-close"
@@ -51,12 +70,11 @@
                 aria-label="Close"
               ></button>
             </div>
-            <div class="modal-body">
-              <p>Modal body text goes here.</p>
-            </div>
+            <div class="modal-body"></div>
             <div class="modal-footer justify-content-between">
               <div class="d-flex flex-column align-items-center">
                 <img
+                  id="left-arrow"
                   class="modal-icons"
                   src="./img/icon_arrow_left.svg"
                   alt="clickable arrow to show previous pokemon"
@@ -65,6 +83,7 @@
               </div>
               <div class="d-flex flex-column align-items-center">
                 <img
+                  id="right-arrow"
                   class="modal-icons"
                   src="./img/icon_arrow_right.svg"
                   alt="clickable arrow to show next pokemon"

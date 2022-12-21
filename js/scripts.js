@@ -48,6 +48,7 @@ let pokemonRepository = (function () {
   // Load details based on the detailsURL in the pokemon list for the respective pokemon
   function showDetails(pokemon) {
     loadDetails(pokemon).then(function () {
+      console.log(pokemon);
       modal.showModal(pokemon);
     });
   }
@@ -100,19 +101,15 @@ let pokemonRepository = (function () {
       });
   }
 
-  let main = document.querySelector("main");
+  let loadingModal = document.querySelector("#loading-modal");
 
   // Show "Loading" message while getting data from server
   function showLoadingMessage() {
-    let heading = document.createElement("h1");
-
-    heading.textContent = "Loading...";
-    heading.classList.add("loadingMessage", "visible");
-    main.appendChild(heading);
+    loadingModal.classList.add("show", "d-block");
   }
   // Hide loading Message when data has been loaded
   function hideLoadingMessage() {
-    main.removeChild(document.querySelector(".loadingMessage"));
+    loadingModal.classList.remove("show", "d-block");
   }
 
   return {
@@ -128,36 +125,22 @@ let pokemonRepository = (function () {
 // Show or hide modal
 
 let modal = (function () {
-  let modalContainer = document.querySelector(".modal-container");
+  let modalTitle = document.querySelector("#pokemon-name");
+  let modalBody = document.querySelector(".modal-body");
+  let leftArrow = document.querySelector("#left-arrow");
+  let rightArrow = document.querySelector("#right-arrow");
 
   function showModal(pokemon) {
-    modalContainer.innerHTML = "";
+    modalTitle.textContent = "";
+    modalBody.innerHTML = "";
 
-    let modalElement = document.createElement("div");
-    modalElement.classList.add("modal");
-    modalContainer.classList.add("is-visible");
-
-    let closeButtonElement = document.createElement("button");
-    closeButtonElement.classList.add("modal-close");
-    closeButtonElement.textContent = "Close";
-    closeButtonElement.addEventListener("click", hideModal);
+    modalTitle.textContent = pokemon.name;
 
     let detailWrapperElement = document.createElement("div");
     detailWrapperElement.classList.add("detail-wrapper");
 
     let descriptionWrapperElement = document.createElement("div");
     descriptionWrapperElement.classList.add("description-wrapper");
-
-    let nameElement = document.createElement("h1");
-    nameElement.textContent = pokemon.name;
-
-    let leftArrowSVGElement = document.createElement("img");
-    leftArrowSVGElement.src = "./img/icon_arrow_left.svg";
-    leftArrowSVGElement.classList.add("modal-icons");
-
-    let rightArrowSVGElement = document.createElement("img");
-    rightArrowSVGElement.src = "./img/icon_arrow_right.svg";
-    rightArrowSVGElement.classList.add("modal-icons");
 
     let imageElement = document.createElement("img");
     imageElement.src = pokemon.imageUrl;
@@ -175,54 +158,29 @@ let modal = (function () {
     let typesElement = document.createElement("p");
     typesElement.textContent = `Types: ${type.join(", ")}`;
 
-    modalElement.appendChild(closeButtonElement);
-    detailWrapperElement.appendChild(leftArrowSVGElement);
     detailWrapperElement.appendChild(imageElement);
-    descriptionWrapperElement.appendChild(nameElement);
     descriptionWrapperElement.appendChild(hightElement);
     descriptionWrapperElement.appendChild(typesElement);
     detailWrapperElement.appendChild(descriptionWrapperElement);
-    detailWrapperElement.appendChild(rightArrowSVGElement);
-    modalElement.appendChild(detailWrapperElement);
-    modalContainer.appendChild(modalElement);
 
-    window.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") {
-        hideModal();
-      }
-    });
-
-    modalContainer.addEventListener("click", (e) => {
-      let target = e.target;
-      if (target === modalContainer) {
-        hideModal();
-      }
-    });
+    modalBody.appendChild(detailWrapperElement);
 
     // Add event listeners for the slide arrows in the modal
 
-    addEventListenerLeftArrowClick(leftArrowSVGElement, pokemon, "left");
-    addEventListenerRightArrowClick(rightArrowSVGElement, pokemon, "right");
+    addEventListenerArrowClick(leftArrow, pokemon, "left");
+    addEventListenerArrowClick(rightArrow, pokemon, "right");
   }
 
-  function addEventListenerLeftArrowClick(leftArrowSVGElement, pokemon, left) {
-    leftArrowSVGElement.addEventListener("click", () => {
-      slideModal(pokemon, left);
-    });
-  }
-  function addEventListenerRightArrowClick(
-    rightArrowSVGElement,
-    pokemon,
-    right
-  ) {
-    rightArrowSVGElement.addEventListener("click", () => {
-      slideModal(pokemon, right);
+  function addEventListenerArrowClick(arrow, pokemon, direction) {
+    arrow.addEventListener("click", () => {
+      slideModal(pokemon, direction);
     });
   }
 
   // Find current pokemon id and show the next or previous pokemon
 
   function slideModal(pokemon, direction) {
+    let pokemonCopy = JSON.parse(JSON.stringify(pokemon));
     if (direction === "left") {
       if (pokemon.id === 1) {
         return;
@@ -230,25 +188,24 @@ let modal = (function () {
         let previousPokemonUrl = `https://pokeapi.co/api/v2/pokemon/${
           pokemon.id - 1
         }/`;
-        pokemon.detailsUrl = previousPokemonUrl;
-        pokemonRepository.showDetails(pokemon);
+        pokemonCopy.detailsUrl = previousPokemonUrl;
+        pokemonRepository.showDetails(pokemonCopy);
       }
     } else if (direction === "right") {
-      let nextPokemonUrl = `https://pokeapi.co/api/v2/pokemon/${
-        pokemon.id + 1
-      }/`;
-      pokemon.detailsUrl = nextPokemonUrl;
-      pokemonRepository.showDetails(pokemon);
+      if (pokemon.id === 150) {
+        return;
+      } else {
+        let nextPokemonUrl = `https://pokeapi.co/api/v2/pokemon/${
+          pokemon.id + 1
+        }/`;
+        pokemonCopy.detailsUrl = nextPokemonUrl;
+        pokemonRepository.showDetails(pokemonCopy);
+      }
     }
-  }
-
-  function hideModal() {
-    modalContainer.classList.remove("is-visible");
   }
 
   return {
     showModal: showModal,
-    hideModal: hideModal,
   };
 })();
 
