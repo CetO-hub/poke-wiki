@@ -30,14 +30,10 @@ let pokemonRepository = (function () {
     let pokemonList = document.querySelector(".pokemon-list");
 
     let listItem = document.createElement("li");
-    listItem.classList.add("group-list-item");
     let button = document.createElement("button");
-    button.classList.add("btn", "btn-primary");
-    button.classList.add("button");
-    button.setAttribute("data-toggle", "modal");
-    button.setAttribute("data-target", `#${pokemon.name}`);
 
     button.innerText = pokemon.name;
+    button.classList.add("button");
 
     listItem.appendChild(button);
     pokemonList.appendChild(listItem);
@@ -127,16 +123,36 @@ let pokemonRepository = (function () {
 // Show or hide modal
 
 let modal = (function () {
-  let modal = document.querySelector(".modal");
-  let modalTitle = document.querySelector(".modal-title");
-  let modalBody = document.querySelector(".modal-body");
+  let modalContainer = document.querySelector(".modal-container");
 
   function showModal(pokemon) {
-    modal.setAttribute("id", `${pokemon.name}`);
-    modalTitle.textContent = "";
-    modalBody.innerHTML = "";
+    modalContainer.innerHTML = "";
 
-    modalTitle.textContent = pokemon.name;
+    let modalElement = document.createElement("div");
+    modalElement.classList.add("modal");
+    modalContainer.classList.add("is-visible");
+
+    let closeButtonElement = document.createElement("button");
+    closeButtonElement.classList.add("modal-close");
+    closeButtonElement.textContent = "Close";
+    closeButtonElement.addEventListener("click", hideModal);
+
+    let detailWrapperElement = document.createElement("div");
+    detailWrapperElement.classList.add("detail-wrapper");
+
+    let descriptionWrapperElement = document.createElement("div");
+    descriptionWrapperElement.classList.add("description-wrapper");
+
+    let nameElement = document.createElement("h1");
+    nameElement.textContent = pokemon.name;
+
+    let leftArrowSVGElement = document.createElement("img");
+    leftArrowSVGElement.src = "./img/icon_arrow_left.svg";
+    leftArrowSVGElement.classList.add("modal-icons");
+
+    let rightArrowSVGElement = document.createElement("img");
+    rightArrowSVGElement.src = "./img/icon_arrow_right.svg";
+    rightArrowSVGElement.classList.add("modal-icons");
 
     let imageElement = document.createElement("img");
     imageElement.src = pokemon.imageUrl;
@@ -154,14 +170,35 @@ let modal = (function () {
     let typesElement = document.createElement("p");
     typesElement.textContent = `Types: ${type.join(", ")}`;
 
+    modalElement.appendChild(closeButtonElement);
+    detailWrapperElement.appendChild(leftArrowSVGElement);
+    detailWrapperElement.appendChild(imageElement);
+    descriptionWrapperElement.appendChild(nameElement);
+    descriptionWrapperElement.appendChild(hightElement);
+    descriptionWrapperElement.appendChild(typesElement);
+    detailWrapperElement.appendChild(descriptionWrapperElement);
+    detailWrapperElement.appendChild(rightArrowSVGElement);
+    modalElement.appendChild(detailWrapperElement);
+    modalContainer.appendChild(modalElement);
+
     window.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
         hideModal();
       }
     });
-  }
 
-  // Add event listeners for the slide arrows in the modal
+    modalContainer.addEventListener("click", (e) => {
+      let target = e.target;
+      if (target === modalContainer) {
+        hideModal();
+      }
+    });
+
+    // Add event listeners for the slide arrows in the modal
+
+    addEventListenerLeftArrowClick(leftArrowSVGElement, pokemon, "left");
+    addEventListenerRightArrowClick(rightArrowSVGElement, pokemon, "right");
+  }
 
   function addEventListenerLeftArrowClick(leftArrowSVGElement, pokemon, left) {
     leftArrowSVGElement.addEventListener("click", () => {
