@@ -127,12 +127,21 @@ let pokemonRepository = (function () {
 let modal = (function () {
   let modalTitle = document.querySelector("#pokemon-name");
   let modalBody = document.querySelector(".modal-body");
-  let leftArrow = document.querySelector("#left-arrow");
-  let rightArrow = document.querySelector("#right-arrow");
+  let modalFooter = document.querySelector(".modal-footer");
 
   function showModal(pokemon) {
     modalTitle.textContent = "";
     modalBody.innerHTML = "";
+    modalFooter.innerHTML = "";
+
+    let leftArrow = document.createElement("img");
+    leftArrow.classList.add("modal-icons");
+    leftArrow.setAttribute("id", "left-arrow");
+    leftArrow.setAttribute("src", "./img/icon_arrow_left.svg");
+    let rightArrow = document.createElement("img");
+    rightArrow.classList.add("modal-icons");
+    rightArrow.setAttribute("id", "right-arrow");
+    rightArrow.setAttribute("src", "./img/icon_arrow_right.svg");
 
     modalTitle.textContent = pokemon.name;
 
@@ -164,6 +173,8 @@ let modal = (function () {
     detailWrapperElement.appendChild(descriptionWrapperElement);
 
     modalBody.appendChild(detailWrapperElement);
+    modalFooter.appendChild(leftArrow);
+    modalFooter.appendChild(rightArrow);
 
     // Add event listeners for the slide arrows in the modal
 
