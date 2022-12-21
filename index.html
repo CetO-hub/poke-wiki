@@ -39,7 +39,7 @@
     </header>
     <main>
       <ul class="pokemon-list list-group gap-1"></ul>
-      <div class="modal" tabindex="-1">
+      <div class="modal fade" id="pokemon-modal" tabindex="-1">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -55,16 +55,14 @@
               <p>Modal body text goes here.</p>
             </div>
             <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-              <button type="button" class="btn btn-primary">
-                Save changes
-              </button>
+              <img
+                src="./img/icon_arrow_left.svg"
+                alt="clickable arrow to show previous pokemon"
+              />
+              <img
+                src="./img/icon_arrow_right.svg"
+                alt="clickable arrow to show next pokemon"
+              />
             </div>
           </div>
         </div>
