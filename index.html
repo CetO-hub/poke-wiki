@@ -30,14 +30,26 @@
   <body>
     <header>
       <nav class="navbar bg-light w-100">
-        <div class="container">
-          <a class="navbar-brand" href="./index.html">
+        <div class="container align-items-center">
+          <a class="navbar-brand mx-auto" href="./index.html">
             <img
               src="./img/pokemon_wiki_logo.svg"
               alt="A pokémon head with 'Pokémon Wiki' text below"
             />
           </a>
           <h1 class="flex-grow-1">Pokémon Wiki</h1>
+          <div class="search-wrapper">
+            <input
+              id="pokemon-search"
+              type="text"
+              placeholder="Search for pokemons..."
+            />
+            <img
+              class="search-glass"
+              src="./img/pokemon_search_glass.svg"
+              alt=""
+            />
+          </div>
         </div>
       </nav>
     </header>
