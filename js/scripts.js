@@ -1,6 +1,6 @@
 let pokemonRepository = (function () {
   let pokemonList = [];
-  let apiUrl = "https://pokeapi.co/api/v2/pokemon/?limit=150";
+  let apiUrl = "https://pokeapi.co/api/v2/pokemon/?limit=929";
   let searchPokemon = document.querySelector("#pokemon-search");
   searchPokemon.addEventListener("input", () => {
     find(searchPokemon.value);
@@ -24,11 +24,7 @@ let pokemonRepository = (function () {
         return pokemons;
       }
     });
-    if (pokemon.length !== 0) {
-      return console.log(pokemon);
-    } else {
-      return console.log("No pokemon found");
-    }
+    showSearchResult(pokemon);
   }
   // Add a pokemon to the DOM
   function addListItem(pokemon) {
@@ -54,6 +50,46 @@ let pokemonRepository = (function () {
   function showDetails(pokemon) {
     loadDetails(pokemon).then(function () {
       modal.showModal(pokemon);
+    });
+  }
+
+  // Display the results for the input in the search field
+  function showSearchResult(pokemons) {
+    let pokemonSearchWrapper = document.querySelector(
+      ".pokemon-search-wrapper"
+    );
+
+    pokemonSearchWrapper.innerHTML = "";
+    console.log(pokemons);
+    if (pokemons.length !== 0) {
+      let pokemonSearchList = [];
+      pokemons.forEach(function (item) {
+        pokemonSearchList.push(item.name);
+      });
+
+      pokemonSearchList.forEach(function (item) {
+        let pokemonContainerItem = document.createElement("p");
+        pokemonContainerItem.textContent = item;
+        pokemonSearchWrapper.appendChild(pokemonContainerItem);
+      });
+      pokemonSearchWrapper.classList.add("pokemon-search-wrapper--visible");
+    } else {
+      let pokemonContainerItem = document.createElement("p");
+      pokemonContainerItem.textContent = "No pokemon found";
+      pokemonSearchWrapper.appendChild(pokemonContainerItem);
+      pokemonSearchWrapper.classList.add("pokemon-search-wrapper--visible");
+    }
+
+    window.addEventListener("click", () => {
+      pokemonSearchWrapper.classList.remove("pokemon-search-wrapper--visible");
+    });
+
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        pokemonSearchWrapper.classList.remove(
+          "pokemon-search-wrapper--visible"
+        );
+      }
     });
   }
 

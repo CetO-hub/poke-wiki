@@ -40,6 +40,7 @@ header h1 {
 }
 
 .search-wrapper {
+  position: relative;
   display: flex;
   margin: auto;
   align-items: center;
@@ -56,6 +57,28 @@ header h1 {
 }
 #pokemon-search {
   padding: 0.5rem;
+}
+
+.pokemon-search-wrapper {
+  display: none;
+  position: absolute;
+  top: 4.8rem;
+  left: 0;
+  flex-direction: column;
+  width: 196px;
+  max-height: 100px;
+  overflow-y: scroll;
+  background-color: #d1ffdf;
+  border: 1px solid black;
+  z-index: 999;
+}
+.pokemon-search-wrapper p {
+  margin: 0;
+  padding: 0.5rem;
+}
+
+.pokemon-search-wrapper--visible {
+  display: flex;
 }
 
 .pokemon-list {
