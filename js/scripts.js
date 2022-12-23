@@ -18,13 +18,12 @@ let pokemonRepository = (function () {
 
   // Find a pokemon in the pokemon list
   function find(name) {
-    console.log(name);
     let pokemon = pokemonList.filter(function (pokemons) {
       if (pokemons.name.includes(name.toLowerCase())) {
         return pokemons;
       }
     });
-    showSearchResult(pokemon);
+    showSearchResult(pokemon, name);
   }
   // Add a pokemon to the DOM
   function addListItem(pokemon) {
@@ -54,13 +53,13 @@ let pokemonRepository = (function () {
   }
 
   // Display the results for the input in the search field
-  function showSearchResult(pokemons) {
+  function showSearchResult(pokemons, name) {
     let pokemonSearchWrapper = document.querySelector(
       ".pokemon-search-wrapper"
     );
 
     pokemonSearchWrapper.innerHTML = "";
-    console.log(pokemons);
+
     if (pokemons.length !== 0) {
       let pokemonSearchList = [];
       pokemons.forEach(function (item) {
@@ -68,8 +67,19 @@ let pokemonRepository = (function () {
       });
 
       pokemonSearchList.forEach(function (item) {
+        // Create span element with the user input from the search field
+        let span = document.createElement("span");
+        span.innerHTML = name;
+        span.classList.add("search-sequence");
+
+        // Construct the respective pokemon with inserted span element
+        let index = item.indexOf(name);
+        let firstPart = item.slice(0, index);
+        let lastPart = item.slice(index + name.length);
+        item = firstPart + span.outerHTML + lastPart;
+
         let pokemonContainerItem = document.createElement("p");
-        pokemonContainerItem.textContent = item;
+        pokemonContainerItem.innerHTML = item;
         pokemonSearchWrapper.appendChild(pokemonContainerItem);
       });
       pokemonSearchWrapper.classList.add("pokemon-search-wrapper--visible");

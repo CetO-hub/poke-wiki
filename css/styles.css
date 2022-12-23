@@ -81,6 +81,11 @@ header h1 {
   display: flex;
 }
 
+.search-sequence {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
 .pokemon-list {
   display: grid;
   margin: 0 auto;
