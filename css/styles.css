@@ -72,9 +72,12 @@ header h1 {
   border: 1px solid black;
   z-index: 999;
 }
-.pokemon-search-wrapper p {
-  margin: 0;
-  padding: 0.5rem;
+
+.pokemon-search-wrapper button {
+  width: 100%;
+  background-color: white;
+  color: #1d1d1d;
+  border: none;
 }
 
 .pokemon-search-wrapper--visible {
@@ -100,7 +103,7 @@ header h1 {
   text-align: center;
 }
 
-.button {
+.pokemon-list button {
   min-width: 20ch;
   font-size: 1.5rem;
   font-weight: 700;

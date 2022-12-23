@@ -1,6 +1,6 @@
 let pokemonRepository = (function () {
   let pokemonList = [];
-  let apiUrl = "https://pokeapi.co/api/v2/pokemon/?limit=929";
+  let apiUrl = "https://pokeapi.co/api/v2/pokemon/?limit=905";
   let searchPokemon = document.querySelector("#pokemon-search");
   searchPokemon.addEventListener("input", () => {
     find(searchPokemon.value);
@@ -61,27 +61,34 @@ let pokemonRepository = (function () {
     pokemonSearchWrapper.innerHTML = "";
 
     if (pokemons.length !== 0) {
-      let pokemonSearchList = [];
       pokemons.forEach(function (item) {
-        pokemonSearchList.push(item.name);
-      });
-
-      pokemonSearchList.forEach(function (item) {
         // Create span element with the user input from the search field
         let span = document.createElement("span");
         span.innerHTML = name;
         span.classList.add("search-sequence");
 
         // Construct the respective pokemon with inserted span element
-        let index = item.indexOf(name);
-        let firstPart = item.slice(0, index);
-        let lastPart = item.slice(index + name.length);
-        item = firstPart + span.outerHTML + lastPart;
+        let index = item.name.indexOf(name);
+        let firstPart = item.name.slice(0, index);
+        let lastPart = item.name.slice(index + name.length);
+        searchItem = firstPart + span.outerHTML + lastPart;
 
-        let pokemonContainerItem = document.createElement("p");
-        pokemonContainerItem.innerHTML = item;
-        pokemonSearchWrapper.appendChild(pokemonContainerItem);
+        // Implement the pokemon construct into a button
+        let listItem = document.createElement("li");
+        listItem.classList.add("list-group-item", "p-0", "border-0");
+
+        let button = document.createElement("button");
+        button.innerHTML = searchItem;
+        button.classList.add("btn", "btn-primary", "button");
+        button.setAttribute("type", "button");
+        button.setAttribute("data-bs-toggle", "modal");
+        button.setAttribute("data-bs-target", "#pokemon-modal");
+
+        listItem.appendChild(button);
+        pokemonSearchWrapper.appendChild(listItem);
+        addEventListenerButtonClick(button, item);
       });
+
       pokemonSearchWrapper.classList.add("pokemon-search-wrapper--visible");
     } else {
       let pokemonContainerItem = document.createElement("p");
@@ -281,7 +288,7 @@ let modal = (function () {
         pokemonRepository.showDetails(pokemonCopy);
       }
     } else if (direction === "right") {
-      if (pokemon.id === 150) {
+      if (pokemon.id === 905) {
         return;
       } else {
         let nextPokemonUrl = `https://pokeapi.co/api/v2/pokemon/${
