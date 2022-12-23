@@ -9,7 +9,7 @@ The data for the list is pulled via an API.
 
 ---
 
-Click on a pokemon name to show details (name, height and types) of the pokemon as a modal. The modal can be closed by clicking outside the modal, clicking ESC on the keyboard or by cliking on the "close" button.
+Click on a pokemon name to show details (name, height and types) of the pokemon as a modal. The modal can be closed by clicking outside the modal, clicking ESC on the keyboard or by clicking on the "close" button.
 You can browse through the list within the modal by clicking on the respective "previous" or "next" arrows.
 
 ## Technical
