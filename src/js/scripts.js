@@ -84,7 +84,6 @@ let pokemonRepository = (function () {
         button.setAttribute("type", "button");
         button.setAttribute("data-bs-toggle", "modal");
         button.setAttribute("data-bs-target", "#pokemon-modal");
-
         listItem.appendChild(button);
         pokemonSearchWrapper.appendChild(listItem);
         addEventListenerButtonClick(button, item);
