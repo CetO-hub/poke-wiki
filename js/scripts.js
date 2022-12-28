@@ -3,7 +3,7 @@ let pokemonRepository = (function () {
   let apiUrl = "https://pokeapi.co/api/v2/pokemon/?limit=905";
   let searchPokemon = document.querySelector("#pokemon-search");
   searchPokemon.addEventListener("input", (e) => {
-    find(e, searchPokemon.value);
+    find(e, searchPokemon.value.toLowerCase());
   });
 
   // Show the pokemon list
@@ -20,7 +20,7 @@ let pokemonRepository = (function () {
   function find(e, name) {
     e.preventDefault();
     let pokemon = pokemonList.filter(function (pokemons) {
-      if (pokemons.name.includes(name.toLowerCase())) {
+      if (pokemons.name.includes(name)) {
         return pokemons;
       }
     });
