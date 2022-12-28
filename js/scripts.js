@@ -2,8 +2,8 @@ let pokemonRepository = (function () {
   let pokemonList = [];
   let apiUrl = "https://pokeapi.co/api/v2/pokemon/?limit=905";
   let searchPokemon = document.querySelector("#pokemon-search");
-  searchPokemon.addEventListener("input", () => {
-    find(searchPokemon.value);
+  searchPokemon.addEventListener("input", (e) => {
+    find(e, searchPokemon.value);
   });
 
   // Show the pokemon list
@@ -17,7 +17,8 @@ let pokemonRepository = (function () {
   }
 
   // Find a pokemon in the pokemon list
-  function find(name) {
+  function find(e, name) {
+    e.preventDefault();
     let pokemon = pokemonList.filter(function (pokemons) {
       if (pokemons.name.includes(name.toLowerCase())) {
         return pokemons;
